@@ -38,6 +38,16 @@
 
 - [完整方案](经济学研究团队_云端文件共享与Gitea版本管理完整方案.md)：架构设计、目录与权限、macOS/Windows 使用方式、Gitea、工作流、备份和安全建议。
 - [部署步骤清单](setup.md)：按服务器、macOS、Windows、Gitea、WorkBuddy、备份和验收顺序推进部署。
+- [部署与成员使用指南](DEPLOYMENT.md)：按服务器管理员、Mac 成员、Windows 成员三类角色提供逐步操作说明。
+- [服务器管理员指南](server/README.md)：SSH、防火墙、共享目录初始化和逐用户授权。
+- [Mac 成员指南](macos/README.md)：一次性配置、SSH 公钥交付、Finder 挂载和卸载。
+- [Windows 成员指南](windows/README.md)：一次性配置、SSH 公钥交付、盘符挂载和卸载。
+- [macOS 自动配置脚本](macos/setup.sh)：为 Mac 成员安装并配置 rclone、个人 SSH Key 和 SFTP 连接。
+- [macOS 挂载脚本](macos/mount.sh)：日常启动共享盘挂载。
+- [Windows 自动配置脚本](windows/setup.ps1)：为 Windows 成员安装/检查 rclone、WinFsp、SSH Key 和 SFTP 连接。
+- [Windows 挂载脚本](windows/mount.ps1)：日常将共享目录挂载为 Windows 盘符。
+- [服务器共享目录初始化脚本](server/setup_research_share.sh)：管理员首次部署时创建共享组、目录和 ACL。
+- [服务器逐用户授权脚本](server/add_research_user.sh)：管理员为单个成员创建 Linux 账号、登记 SSH 公钥并授予共享组权限。
 
 ## 建议实施顺序
 
@@ -58,4 +68,4 @@
 
 ## 项目范围
 
-本仓库目前提供的是**架构方案和实施指南**，不是已经部署好的服务器、自动安装程序或客户端软件。实际部署时，应结合团队规模、服务器配置、数据敏感性和网络环境调整权限、备份、缓存及安全策略。
+本仓库提供架构方案、三角色部署指南、macOS/Windows 客户端脚本和服务器管理员脚本。客户端脚本可简化 rclone、SSH Key 与 SFTP 的本机配置；服务器脚本可辅助初始化共享目录并逐个授权成员，但管理员仍需负责审核 SSH、防火墙、账号和权限。脚本尚未在目标 Ubuntu 服务器和各版本 Windows 电脑上进行端到端验证。实际部署时，应结合团队规模、服务器配置、数据敏感性和网络环境调整权限、备份、缓存及安全策略。

@@ -303,44 +303,23 @@ ResearchProjects
 
 ## 8.2 rclone 配置
 
-安装：
+为降低非技术成员的配置负担，仓库提供 macOS 一次性配置脚本。脚本会检查并安装 rclone、生成个人 SSH Key、建立 SFTP remote、验证服务器主机密钥并测试共享目录。
 
-```bash
-brew install rclone
+在仓库目录打开终端，运行：
+
+```sh
+bash macos/setup.sh
 ```
 
-配置：
+成员需要提供服务器地址和自己的 Linux 用户名；端口默认为 `22`，共享目录默认为 `/home/ubuntu/data/research`。管理员须先创建成员账号、配置共享目录权限，并将成员公钥添加到账户。首次连接时，成员应先与管理员核对服务器指纹。
 
-```bash
-rclone config
+以后每次使用，在仓库目录运行：
+
+```sh
+bash macos/mount.sh
 ```
 
-创建一个 SFTP remote，例如：
-
-```text
-Name: research-server
-Type: sftp
-Host: research.example.com
-User: henry
-Port: 22
-```
-
-建议使用 SSH Key。
-
-创建本地挂载点：
-
-```bash
-mkdir -p ~/ResearchCloud
-```
-
-挂载：
-
-```bash
-rclone mount research-server:/data/research ~/ResearchCloud \
-  --vfs-cache-mode full
-```
-
-实际采用哪一种 macOS mount 后端，可根据机器和 macOS 版本决定；核心原则不变：让 Finder 能够把远端目录当成本地目录访问。
+脚本使用 `rclone nfsmount` 在 macOS 上挂载到 `~/ResearchCloud`，启用写缓存并将目录缓存设置为 30 秒。保持终端打开即可在 Finder 访问；确认上传完成后按 Ctrl+C 卸载。挂载不是离线同步。
 
 ---
 
@@ -368,6 +347,8 @@ ResearchCloud/
 - 用 Word / Excel / Preview 打开；
 - 让 WorkBuddy 直接读取。
 
+Windows 成员可在仓库目录运行 `powershell -ExecutionPolicy Bypass -File .\windows\setup.ps1` 完成客户端一次性配置，并运行 `powershell -ExecutionPolicy Bypass -File .\windows\mount.ps1` 将共享目录挂载为盘符。详细的服务器管理员、Mac 和 Windows 操作流程见 [部署与成员使用指南](DEPLOYMENT.md)。
+
 ---
 
 # 9. Windows 客户端
@@ -381,35 +362,21 @@ C:\ResearchProjects\ ← Git clone
 
 ---
 
-## 9.2 安装软件
+## 9.2 一次性配置和日常挂载
 
-需要：
-
-```text
-rclone
-WinFsp
-Git for Windows
-```
-
-rclone 可以使用：
+在本方案仓库目录打开 PowerShell，完成一次性配置：
 
 ```powershell
-winget install Rclone.Rclone
+powershell -ExecutionPolicy Bypass -File .\windows\setup.ps1
 ```
 
-WinFsp 用于把 rclone mount 映射成 Windows 盘符。
-
----
-
-## 9.3 挂载
-
-配置完成后：
+脚本使用 winget 安装 rclone 和 WinFsp，并配置 SSH Key 与 SFTP remote。成员将脚本生成的公钥交给管理员登记；首次连接前核对服务器指纹。完成后，每次使用运行：
 
 ```powershell
-rclone mount research-server:/data/research R: `
-  --vfs-cache-mode full `
-  --network-mode
+powershell -ExecutionPolicy Bypass -File .\windows\mount.ps1
 ```
+
+保持 PowerShell 窗口打开，在文件资源管理器中访问所选盘符；用完并确认上传后按 Ctrl+C 卸载。详细步骤见 [部署与成员使用指南](DEPLOYMENT.md)。
 
 Windows File Explorer 中即可看到：
 
