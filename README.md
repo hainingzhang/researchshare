@@ -37,7 +37,7 @@
 ## 文档导航
 
 - [完整方案](经济学研究团队_云端文件共享与Gitea版本管理完整方案.md)：架构设计、目录与权限、macOS/Windows 使用方式、Gitea、工作流、备份和安全建议。
-- [部署步骤清单](STEP.md)：按服务器、macOS、Windows、Gitea、WorkBuddy、备份和验收顺序推进部署。
+- [部署步骤清单](setup.md)：按服务器、macOS、Windows、Gitea、WorkBuddy、备份和验收顺序推进部署。
 
 ## 建议实施顺序
 
